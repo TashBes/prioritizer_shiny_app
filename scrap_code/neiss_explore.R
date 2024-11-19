@@ -143,3 +143,8 @@ output$age_sex <- renderPrint({
   summary(dataset)
 })
 
+
+# install.packages('C:\\gurobi1200\\win64\\R\\gurobi_12.0-0.zip', repos=NULL)
+# 
+# install.packages('slam')
+

@@ -3,7 +3,7 @@
 ##explore neiss data
 
 library(shiny)
-
+library(gurobi)
 ## -----------------------------------------------------------------------------------------------------------------------
 pacman::p_load(tidyverse, sf, rnaturalearth, patchwork, prioritizr, viridis)
 # IMCC7 Workshop:
@@ -367,7 +367,7 @@ actionButton("simulate", "Solve!"))
 server <- function(input, output, session) {
   
 
-  out_sf_selected <- eventReactive(input$simulate,{
+  out_sf_selected <- reactive({
     
     out_sf %>% 
       dplyr::select(input$feature, cost)
@@ -393,12 +393,12 @@ server <- function(input, output, session) {
     prioritizr::add_boundary_penalties(penalty = input$penalty, edge_factor = 0.5)
   })
   
-  soln <- reactive({
+  soln <- eventReactive(input$simulate,{
     problem() %>%
     solve.ConservationProblem()
   })
   
-  
+  #-------------------------------------------------------------------
   
   output$map <- renderPlot({
 
@@ -430,7 +430,9 @@ shinyApp(ui, server)
 
 
 
-
+# install.packages('C:\\gurobi1200\\win64\\R\\gurobi_12.0-0.zip', repos=NULL)
+# 
+# install.packages('slam')
 
 
 
